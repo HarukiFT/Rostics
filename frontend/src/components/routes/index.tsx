@@ -15,6 +15,6 @@ export const router = createBrowserRouter(
     </Route>
   ),
   {
-    basename: process.env.REACT_APP_BASENAME,
+    basename: "/rostics",
   }
 );
