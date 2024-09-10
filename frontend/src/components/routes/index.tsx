@@ -10,7 +10,7 @@ console.log(process.env.REACT_APP_BASEURL);
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" Component={App}>
+    <Route path="/rostics/" Component={App}>
       <Route path="gift" Component={GiftPage} />
     </Route>
   )
