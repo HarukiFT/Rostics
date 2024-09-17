@@ -23,6 +23,11 @@ export class GiftController {
     return this.giftService.ClaimFor(ownerId);
   }
 
+  @Post('drop')
+  async DropGift(@Body('id', ParseIntPipe) ownerId: number) {
+    return this.giftService.DropFor(ownerId);
+  }
+
   @Get('gifts')
   async GetGifts() {
     return await this.giftService.GetGifts();

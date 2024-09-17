@@ -28,9 +28,11 @@ export class GiftService {
     await this.giftRepositry.save(gift);
   }
 
-  async ClaimFor(id: number) {
+  async DropFor(id: number) {
+    // Fortune promo
     const freeGift = await this.giftRepositry.findOne({
       where: {
+        assignType: 1,
         owner: Equal(0),
       },
     });
@@ -42,6 +44,24 @@ export class GiftService {
     await this.giftRepositry.save(freeGift);
 
     return true;
+  }
+
+  async ClaimFor(id: number) {
+    // Interval promo
+    const freeGift = await this.giftRepositry.findOne({
+      where: {
+        assignType: 0,
+        owner: Equal(0),
+      },
+    });
+
+    if (!freeGift) return false;
+
+    freeGift.owner = id;
+    freeGift.updatedAt = new Date();
+    await this.giftRepositry.save(freeGift);
+
+    return freeGift.code;
   }
 
   async FetchFor(id: number) {
