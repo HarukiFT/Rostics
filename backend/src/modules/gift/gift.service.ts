@@ -3,7 +3,6 @@ import { Equal, Not, Repository } from 'typeorm';
 import { Gift } from './gift.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NewGiftDTO } from './dto/new-gift.dto';
-import * as moment from 'moment-timezone';
 
 @Injectable()
 export class GiftService {
@@ -24,6 +23,7 @@ export class GiftService {
   async NewGift(giftDTO: NewGiftDTO) {
     const gift = new Gift();
     gift.code = giftDTO.code;
+    gift.assignType = parseInt(giftDTO.assignType);
 
     await this.giftRepositry.save(gift);
   }
@@ -46,11 +46,10 @@ export class GiftService {
     return true;
   }
 
-  async ClaimFor(id: number) {
-    // Interval promo
+  async ClaimFor(id: number, assignType: number) {
     const freeGift = await this.giftRepositry.findOne({
       where: {
-        assignType: 0,
+        assignType: assignType,
         owner: Equal(0),
       },
     });

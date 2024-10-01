@@ -19,8 +19,11 @@ export class GiftController {
   }
 
   @Post('claim')
-  async ClaimGift(@Body('id', ParseIntPipe) ownerId: number) {
-    return this.giftService.ClaimFor(ownerId);
+  async ClaimGift(
+    @Body('id', ParseIntPipe) ownerId: number,
+    @Body('assignType', ParseIntPipe) assignType: number,
+  ) {
+    return this.giftService.ClaimFor(ownerId, assignType);
   }
 
   @Post('drop')
