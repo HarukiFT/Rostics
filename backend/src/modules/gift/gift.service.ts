@@ -46,6 +46,15 @@ export class GiftService {
     return true;
   }
 
+  async ExistFor(id: number, assignType: number) {
+    return await this.giftRepositry.findOne({
+      where: {
+        assignType: assignType,
+        owner: Equal(id),
+      },
+    });
+  }
+
   async ClaimFor(id: number, assignType: number) {
     const freeGift = await this.giftRepositry.findOne({
       where: {

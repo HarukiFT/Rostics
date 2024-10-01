@@ -18,6 +18,14 @@ export class GiftController {
     await this.giftService.NewGift(giftDTO);
   }
 
+  @Get('exist')
+  async ExistGift(
+    @Query('id', ParseIntPipe) ownerId: number,
+    @Query('assigntype') assignType: number,
+  ) {
+    return await this.ExistGift(ownerId, assignType);
+  }
+
   @Post('claim')
   async ClaimGift(
     @Body('id', ParseIntPipe) ownerId: number,
