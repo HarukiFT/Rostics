@@ -23,7 +23,7 @@ export class GiftController {
     @Query('id', ParseIntPipe) ownerId: number,
     @Query('assigntype') assignType: number,
   ) {
-    return await this.ExistGift(ownerId, assignType);
+    return await this.giftService.ExistFor(ownerId, assignType);
   }
 
   @Post('claim')
