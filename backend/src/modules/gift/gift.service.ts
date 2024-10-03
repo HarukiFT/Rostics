@@ -49,7 +49,7 @@ export class GiftService {
   async ExistFor(id: number, assignType: number) {
     return await this.giftRepositry.findOne({
       where: {
-        assignType: assignType,
+        assignType: Equal(assignType),
         owner: Equal(id),
       },
     });

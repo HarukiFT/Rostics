@@ -8,7 +8,7 @@ export class Gift {
   @Column({ unique: true })
   code: string;
 
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'bigint' })
   owner: number;
 
   @Column({
