@@ -47,6 +47,24 @@ export class GiftService {
   }
 
   async ExistFor(id: number, assignType: number) {
+    const lastGift = await this.giftRepositry.find({
+      where: {
+        assignType: Equal(assignType),
+      },
+      order: {
+        updatedAt: 'desc',
+      },
+    });
+
+    if (lastGift[0].updatedAt) {
+      const passed = new Date().getTime() - lastGift[0].updatedAt.getTime();
+      const minutes = passed / 1000 / 60;
+
+      if (minutes < 120) {
+        return lastGift[0];
+      }
+    }
+
     return await this.giftRepositry.findOne({
       where: {
         assignType: Equal(assignType),
