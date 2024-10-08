@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GiftModule } from './modules/gift/gift.module';
 import { Gift } from './modules/gift/gift.entity';
+import { LikesModule } from './modules/likes/likes.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { Gift } from './modules/gift/gift.entity';
       inject: [ConfigService],
     }),
     GiftModule,
+    LikesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
