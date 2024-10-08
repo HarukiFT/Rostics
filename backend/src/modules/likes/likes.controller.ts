@@ -9,10 +9,4 @@ export class LikesController {
   async getLikes(@Query('universeId') universeId: string) {
     return await this.likesService.getLikes(universeId);
   }
-
-  @Get('/temp')
-  async temp(@Request() req: any, @Ip() ip: string) {
-    console.log(req.ip);
-    console.log(ip);
-  }
 }

@@ -8,6 +8,6 @@ export class LikesService {
       await axios.get(
         `https://games.roblox.com/v1/games/votes?universeIds=${universeId}`,
       )
-    ).data.data[0].upVotes;
+    ).data.data[0];
   }
 }
