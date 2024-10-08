@@ -1,4 +1,4 @@
-import { Controller, Get, Ip, Query } from '@nestjs/common';
+import { Controller, Get, Ip, Query, Request } from '@nestjs/common';
 import { LikesService } from './likes.service';
 
 @Controller('likes')
@@ -11,7 +11,8 @@ export class LikesController {
   }
 
   @Get('/temp')
-  async temp(@Ip() ip: string) {
+  async temp(@Request() req: any, @Ip() ip: string) {
+    console.log(req.ip);
     console.log(ip);
   }
 }
