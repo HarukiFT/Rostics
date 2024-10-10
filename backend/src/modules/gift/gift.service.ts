@@ -60,7 +60,7 @@ export class GiftService {
       const passed = new Date().getTime() - lastGift[0].updatedAt.getTime();
       const minutes = passed / 1000 / 60;
 
-      if (minutes < 120) {
+      if (minutes < 500) {
         return lastGift[0];
       }
     }
