@@ -60,10 +60,19 @@ export class GiftService {
       const passed = new Date().getTime() - lastGift[0].updatedAt.getTime();
       const minutes = passed / 1000 / 60;
 
-      if (minutes < 500) {
+      if (minutes < 600) {
         return lastGift[0];
       }
     }
+
+    const freeGift = await this.giftRepositry.findOne({
+      where: {
+        assignType: Equal(assignType),
+        owner: Equal(0),
+      },
+    });
+
+    if (!freeGift) return lastGift[0];
 
     return await this.giftRepositry.findOne({
       where: {
