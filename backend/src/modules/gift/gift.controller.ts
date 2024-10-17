@@ -18,6 +18,11 @@ export class GiftController {
     await this.giftService.NewGift(giftDTO);
   }
 
+  @Get('stats')
+  async Stats() {
+    return await this.giftService.GetStats();
+  }
+
   @Get('exist')
   async ExistGift(
     @Query('id', ParseIntPipe) ownerId: number,

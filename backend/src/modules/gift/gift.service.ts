@@ -4,6 +4,17 @@ import { Gift } from './gift.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NewGiftDTO } from './dto/new-gift.dto';
 
+const assignTypes = [
+  'Шефбургер',
+  '15%',
+  '10%',
+  'Мороженное',
+  '3 наггетса',
+  'Окно',
+  '100 робуксов',
+  '800 робуксов',
+];
+
 @Injectable()
 export class GiftService {
   constructor(
@@ -46,13 +57,28 @@ export class GiftService {
     return true;
   }
 
+  async GetStats() {
+    return (
+      await this.giftRepositry
+        .createQueryBuilder('gift')
+        .select('gift.assignType', 'assignType')
+        .addSelect('COUNT(1)', 'count')
+        .where('gift.owner != 0')
+        .groupBy('gift.assignType')
+        .getRawMany()
+    ).map((row) => ({
+      type: assignTypes[row.assignType - 1],
+      count: row.count,
+    }));
+  }
+
   async ExistFor(id: number, assignType: number) {
     const lastGift = await this.giftRepositry.find({
       where: {
-        assignType: Equal(assignType),
+        assignType: assignType,
       },
       order: {
-        updatedAt: 'desc',
+        updatedAt: 'asc',
       },
     });
 
@@ -60,15 +86,15 @@ export class GiftService {
       const passed = new Date().getTime() - lastGift[0].updatedAt.getTime();
       const minutes = passed / 1000 / 60;
 
-      if (minutes < 600) {
+      if (minutes < 180) {
         return lastGift[0];
       }
     }
 
     const freeGift = await this.giftRepositry.findOne({
       where: {
-        assignType: Equal(assignType),
-        owner: Equal(0),
+        assignType: assignType,
+        owner: 0,
       },
     });
 
@@ -76,8 +102,8 @@ export class GiftService {
 
     return await this.giftRepositry.findOne({
       where: {
-        assignType: Equal(assignType),
-        owner: Equal(id),
+        assignType: assignType,
+        owner: id,
       },
     });
   }
@@ -86,7 +112,7 @@ export class GiftService {
     const freeGift = await this.giftRepositry.findOne({
       where: {
         assignType: assignType,
-        owner: Equal(0),
+        owner: 0,
       },
     });
 
